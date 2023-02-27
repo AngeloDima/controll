@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Create Pizza</title>
+</head>
+<body>
+    <form id="pizza-form" th:object="${newPizza}" th:action="@{/create}" method="post">
+    
+    
+        <ul>
+	      <li 
+	         th:each="err : ${#fields.allErrors()}" 
+	         th:text="${err}" class="text-danger">
+	      </li>
+	    </ul>
+    
+    
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" th:field="*{nome}" >
+        
+       
+        
+        
+        
+        <label for="descrizione">Descrizione</label>
+        <input type="text" id="descrizione" th:field="*{descrizione}" >
+        
+        <div th:if="${#fields.hasErrors('Descrizione')}" class="invalid-feedback">
+			<ul>
+			   <li th:each="err : ${#fields.errors('Descrizione')}" th:text="${err}"></li>
+			</ul>
+  		</div>
+        
+        
+        
+        
+        <label for="prezzo">Prezzo</label>
+        <input type="text" id="prezzo" th:field="*{prezzo}" >
+        
+        
+        <div th:if="${#fields.hasErrors('Prezzo')}" class="invalid-feedback">
+			<ul>
+			   <li th:each="err : ${#fields.errors('Prezzo')}" th:text="${err}"></li>
+			</ul>
+  		</div>
+        
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

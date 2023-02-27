@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	<div>
+		<h2 th:text="${dettPizza.nome}"></h2>
+		<h2 th:text="${dettPizza.descrizione}"></h2>
+		<h2 th:text="${dettPizza.prezzo}"></h2>
+	</div>
+	
+	<h1>Ingredienti</h1>
+	
+	
+	
+	
+	
+	
+
+		<ul>
+		
+			<li th:each="Ingrediente : ${dettPizza.ingredienti}" th:text="${Ingrediente.nome}">
+			
+		</ul>
+			
+	
+	
+	
+	
+	
+	
+	
+	<a th:href="@{/sconto/create(pizza=${dettPizza.id})}">Crea sconto</a>
+
+	
+	
+	<h1>-----------------------</h1>
+	
+<div> 
+    <div th:each="sconto : ${dettPizza.sconto}">
+    	
+    	<h3>id</h3>
+    	<h2 th:text="${sconto.id}"></h2>
+    	<h3>offerta</h3>
+    	<h2 th:text="${sconto.Offerta}"></h2>
+    	
+    	<h3>Data di inizio</h3>
+    	<h2 th:text="${sconto.inizio}"></h2>
+    	
+    	<h3>Data di fine</h3>
+    	<h2 th:text="${sconto.fine}"></h2>
+
+	<a th:href="@{/sconto/ModificaEdit/{id} (id=${sconto.id})}">Modifica sconto</a>
+
+    </div> 
+</div>
+
+
+
+
+<h1>-----------------------</h1>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Modifica Pizza</title>
+</head>
+<body>
+
+	<form id="pizza-form" th:object="${editPizza}" th:action="@{/edit/{id}(id=${editPizza.id})}" method="post">
+    
+    
+        <ul>
+	      <li 
+	         th:each="err : ${#fields.allErrors()}" 
+	         th:text="${err}" class="text-danger">
+	      </li>
+	    </ul>
+    
+    
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" th:field="*{nome}" >
+        
+       
+        
+        
+        
+        <label for="descrizione">Descrizione</label>
+        <input type="text" id="descrizione" th:field="*{descrizione}" >
+        
+        <div th:if="${#fields.hasErrors('Descrizione')}" class="invalid-feedback">
+			<ul>
+			   <li th:each="err : ${#fields.errors('Descrizione')}" th:text="${err}"></li>
+			</ul>
+  		</div>
+        
+        
+        
+        
+        <label for="prezzo">Prezzo</label>
+        <input type="text" id="prezzo" th:field="*{prezzo}" >
+        
+        
+        <div th:if="${#fields.hasErrors('Prezzo')}" class="invalid-feedback">
+			<ul>
+			   <li th:each="err : ${#fields.errors('Prezzo')}" th:text="${err}"></li>
+			</ul>
+  		</div>
+        
+  
+        <button type="submit">Submit</button>
+    </form>
+    
+    <div>
+		  <h2>Ingredienti</h2>
+		  <div th:each="Ingredienti : ${editIngredienti}">
+		    <input type="checkbox" th:field="${Ingrediente.id}">
+		    <label th:text="${Ingrediente.nome}" th:for="${#ids.prev('Ingrediente.id')}"></label>
+		    <h4 th:text="${Ingrediente.nome}"></h4>
+		  </div>
+		</div>
+
+</body>
+</html>
+
+

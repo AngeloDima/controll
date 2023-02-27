@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="css/home.css">
+<title>Le tue pizze</title>
+</head>
+<body>
+
+
+
+
+
+
+AS
+<div id="content">
+
+
+	<div class="up">
+		<h1 id="pizze">PizzeriaCrud</h1>
+	</div>
+	
+	<a th:href="@{/create}">Crea la tua pizza</a>
+	
+	
+	
+		
+	
+		<div class="down">
+		    <h2 id="elen">Elenco pizze</h2>
+		    <ul id="contentList" th:if="${Pizza}">
+		        <li id="spaz" th:each="pizza : ${Pizza}">
+		            <a th:href="@{/pizza/{id}(id=${pizza.id})}" th:text="${pizza.nome}"></a> - <span th:text="${pizza.descrizione}"></span> - <span th:text="${pizza.prezzo}"></span> $
+		            <form th:action="@{/delete/{id}(id=${pizza.id})}" method="post">
+		                <button type="submit">Click to Delete</button>
+		            </form>
+		            <form th:action="@{/edit/{id}(id=${pizza.id})}" method="post">
+		                <button type="submit">Click to Edit</button>
+		            </form>
+		        </li>
+		    </ul>
+		</div>
+	
+	
+	<h3 id="Err" th:unless="${not #lists.isEmpty(Pizza)}">Non ci sono pizze</h3>
+</div>
+	
+	
+</body>
+</html>

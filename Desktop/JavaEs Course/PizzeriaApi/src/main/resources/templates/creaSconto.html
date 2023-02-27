@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form id="pizza-form" th:object="${newSconto}" th:action="@{/sconto/create/{pizza}(pizza=${newSconto.pizza.id})}" method="post">
+
+    <label for="offerta">Offerta</label>
+    <input type="text" id="offerta" th:field="*{offerta}">
+    
+    <label for="inizio">Inizio</label>
+    <input type="date" id="inizio" th:field="*{inizio}">
+    
+    <label for="fine">Fine</label>
+    <input type="date" id="fine" th:field="*{fine}">
+    
+    <input type="hidden" th:field="*{pizza.id}">
+    <button type="submit">Submit</button>
+</form>
+
+
+</body>
+</html>
+
+
+
+
