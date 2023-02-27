@@ -2,6 +2,8 @@ package com.example.demo.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,7 @@ public class Ingredienti {
 		Pizza = pizza;
 	}
 
+	@JsonBackReference
 	@ManyToMany(mappedBy = "ingredienti")
 	private List <pizzeria> Pizza;
 }

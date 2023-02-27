@@ -2,6 +2,8 @@ package com.example.demo.Model;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,8 @@ public class Sconto {
     private Date fine;
 
 	//------------------------------------------------------------
+    @JsonBackReference
+    @NonNull
     @ManyToOne
     
     private pizzeria pizza;
