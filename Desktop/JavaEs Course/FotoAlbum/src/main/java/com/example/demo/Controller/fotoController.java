@@ -81,8 +81,26 @@ public class fotoController {
         repository.save(formFoto);
         return "redirect:/";
     }
+    
+    
+    
+    
+    
+    
+    
+    //delete
+    
 
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+        repository.deleteById(id);
+        return "redirect:/";
+    }
 }
+    
+    
+    
+
 
 
 

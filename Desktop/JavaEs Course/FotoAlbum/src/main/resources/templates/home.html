@@ -37,6 +37,10 @@
 
 				<a th:href="@{/edit/{id}(id=${foto.id})}">Modifica</a>
 				
+				
+				<form th:action="@{/delete/{id}(id=${foto.id})}" method="post">
+		                <button type="submit">Click to Delete</button>
+		            </form>
 		            
 		            
 		             
