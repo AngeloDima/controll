@@ -21,33 +21,23 @@ import jakarta.validation.Valid;
 @RequestMapping("/")
 public class fotoController {
 
-	
-	@Autowired
-	
-	fotoRepository repository;
-	
-	@GetMapping
-	public String index (Model model) {
-		List<foto> elencoFoto;
-		elencoFoto = repository.findAll();
-		model.addAttribute("elencoFoto", elencoFoto);
-		return "home";
-	}
-	
-	
+    @Autowired
+    fotoRepository repository;
+
+    @GetMapping
+    public String index(Model model) {
+        List<foto> elencoFoto = repository.findAll();
+        model.addAttribute("elencoFoto", elencoFoto);
+        return "home";
+    }
+
     @GetMapping("foto/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
-    	foto dettFoto = repository.getReferenceById(id);
-    	model.addAttribute("dettFoto", dettFoto);
-    	return "dettagli";
-    	
+        foto dettFoto = repository.findById(id).orElse(null);
+        model.addAttribute("dettFoto", dettFoto);
+        return "dettagli";
     }
-    
-    
-    
-    
- 
-    
+
     @GetMapping("/create")
     public String create(Model model) {
         foto createFoto = new foto();
@@ -56,16 +46,44 @@ public class fotoController {
     }
 
     @PostMapping("/create")
-    public String storeCreate(@ModelAttribute("createFoto") @Valid foto formFoto,BindingResult bindingResult, Model model) {
- {
+    public String storeCreate(@ModelAttribute("createFoto") @Valid foto formFoto, BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            return "creaFoto";
+        }
+        repository.save(formFoto);
+        return "redirect:/";
+    }
+
+    
+    
+    
+    
+    
+    
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+    	
+        foto editFoto;
+        editFoto = repository.getReferenceById(id);
+        model.addAttribute("editFoto", editFoto);
         
+        return "edit";
+    }
+
+    
+    
+    
+    
+    @PostMapping("/edit/{id}")
+    public String paggEdit ( @ModelAttribute ("editFoto") foto formFoto,BindingResult bindingResult, Model model) {
 
         repository.save(formFoto);
         return "redirect:/";
     }
-    
-	
-    }}
+
+}
+
 
 
 
