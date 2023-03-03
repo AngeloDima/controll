@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="css/home.css">
+<title>Le tue pizze</title>
+</head>
+<body>
+
+
+
+
+
+
+
+<div id="content">
+
+
+	<div class="up">
+		<h1>Foto</h1>
+	</div>
+	
+
+	
+	
+	
+		
+	
+		<div class="down">
+		    <h2 id="elen">Elenco Foto</h2>
+		    <ul id="contentList" th:if="${elencoFoto}">
+		        <li id="spaz" th:each="foto : ${elencoFoto}">
+		            <a th:href="@{/foto/{id}(id=${foto.id})}" th:text="${foto.titolo}"></a> - <span th:text="${foto.descrizione}"></span> - <span th:text="${foto.url}"></span> - <span th:text="${foto.tag}"></span> - <span th:text="${foto.categoria}"></span> $
+		            
+		        </li>
+		    </ul>
+		</div>
+	
+	
+	<h3 id="Err" th:unless="${not #lists.isEmpty(elencoFoto)}">Non ci sono foto</h3>
+</div>
+	
+	
+</body>
+</html>
