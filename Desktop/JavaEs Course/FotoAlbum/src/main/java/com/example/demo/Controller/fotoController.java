@@ -1,8 +1,14 @@
 package com.example.demo.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,12 +57,26 @@ public class fotoController {
         if (bindingResult.hasErrors()) {
             return "creaFoto";
         }
+        
+        // Controllo autorizzazioni
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            return "redirect:/";
+        }
+        
+        // Aggiungi manualmente il ruolo "ADMIN" all'utente autorizzato
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        updatedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        
         repository.save(formFoto);
         return "redirect:/";
     }
 
-    
-    
+
+
+
     
     
     
@@ -100,6 +120,8 @@ public class fotoController {
     
     
     
+
+
 
 
 
