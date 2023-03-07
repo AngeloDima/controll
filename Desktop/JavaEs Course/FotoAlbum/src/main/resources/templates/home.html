@@ -22,7 +22,9 @@
 	
 
 	
-		<a th:href="@{/create}">Inserisci la tua foto</a>
+		<a th:href="@{/create}" sec:authorize="hasAuthority('ADMIN')">
+        Inserisci la tua foto
+   		 </a>
 	
 	
 		
@@ -35,8 +37,7 @@
 
 
 
-				<a th:href="@{/edit/{id}(id=${foto.id})}">Modifica</a>
-				
+				<a th:href="@{/edit/{id}(id=${foto.id})}" >Modifica</a>
 				
 				<form th:action="@{/delete/{id}(id=${foto.id})}" method="post">
 		                <button type="submit">Click to Delete</button>

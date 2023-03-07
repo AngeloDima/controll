@@ -11,18 +11,17 @@ public class SecurityConfiguration {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	     http.authorizeHttpRequests()
-	        .requestMatchers("/create").hasAuthority("ADMIN")
-	        .requestMatchers("/edit/**").hasAuthority("ADMIN")
-	        .requestMatchers("/delete/**").hasAuthority("ADMIN")
-	        .requestMatchers("/foto/**").hasAuthority("USER")
-	        .requestMatchers("/**").permitAll()
-	        .and().formLogin()
-	        .and().logout();
-	     
-	     return http.build();
-	 }
-
+	    http.authorizeHttpRequests()
+	            .requestMatchers("/create").hasAuthority("ADMIN")
+	            .requestMatchers("/edit/**").hasAuthority("ADMIN")
+	            .requestMatchers("/delete/**").hasAuthority("ADMIN")
+	            .requestMatchers("/foto/**").hasAuthority("USER")
+	            .requestMatchers("/**").permitAll()
+	            .and().formLogin()
+	            .and().logout();
+	    return http.build();
+	}
+	
 	
 	  @Bean
 	  DatabaseUserDetailsService userDetailsService() {

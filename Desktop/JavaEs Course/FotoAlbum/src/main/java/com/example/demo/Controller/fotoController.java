@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -52,36 +53,37 @@ public class fotoController {
     
     @GetMapping("/create")
     public String create(Model model) {
-        foto createFoto = new foto();
-        model.addAttribute("createFoto", createFoto);
-        return "creaFoto";
-    }
-
-    
-    
-    @PostMapping("/create")
-    public String storeCreate(@ModelAttribute("createFoto") @Valid foto formFoto, BindingResult bindingResult,
-            Model model) {
-        if (bindingResult.hasErrors()) {
-            return "creaFoto";
-        }
-        
         // Controllo autorizzazioni
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             return "redirect:/";
         }
-        
-        // Aggiungi manualmente il ruolo "ADMIN" all'utente autorizzato
-        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-        updatedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
-        
+
+        foto createFoto = new foto();
+        model.addAttribute("createFoto", createFoto);
+        return "creaFoto";
+    }
+
+    @PostMapping("/create")
+    public String storeCreate(@ModelAttribute("createFoto") @Valid foto formFoto, BindingResult bindingResult,
+            Model model) {
+        // Controllo autorizzazioni
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            return "redirect:/";
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "creaFoto";
+        }
+
         repository.save(formFoto);
         return "redirect:/";
     }
 
+
+    
+    
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -92,12 +94,16 @@ public class fotoController {
     
     
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
-    	
+    public String edit(@PathVariable("id") Integer id, Model model, Authentication auth) {
         foto editFoto;
         editFoto = repository.getReferenceById(id);
         model.addAttribute("editFoto", editFoto);
-        
+
+        // Controllo autorizzazioni
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            return "redirect:/";
+        }
+
         return "edit";
     }
 
@@ -131,6 +137,9 @@ public class fotoController {
         return "redirect:/";
     }
 
+    
+    
+    
     //--------------------------------------------------------------------------------------------------------------------------------------------------------- 
     
     
