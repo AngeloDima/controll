@@ -36,7 +36,10 @@ public class fotoController {
         model.addAttribute("elencoFoto", elencoFoto);
         return "home";
     }
-
+    
+    
+    //DETT ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    
     @GetMapping("foto/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
         foto dettFoto = repository.findById(id).orElse(null);
@@ -44,6 +47,9 @@ public class fotoController {
         return "dettagli";
     }
 
+    
+    // create ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    
     @GetMapping("/create")
     public String create(Model model) {
         foto createFoto = new foto();
@@ -51,6 +57,8 @@ public class fotoController {
         return "creaFoto";
     }
 
+    
+    
     @PostMapping("/create")
     public String storeCreate(@ModelAttribute("createFoto") @Valid foto formFoto, BindingResult bindingResult,
             Model model) {
@@ -74,11 +82,13 @@ public class fotoController {
         return "redirect:/";
     }
 
-
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     
     
+    
+    //edit------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     
     @GetMapping("/edit/{id}")
@@ -121,14 +131,14 @@ public class fotoController {
         return "redirect:/";
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------- 
     
     
     
     
     
     
-    
-    //delete
+    //delete----------------------------------------------------------------------------------------------------------------------------------------------
     
 
     @PostMapping("/delete/{id}")
@@ -143,7 +153,7 @@ public class fotoController {
     }
 
 }
-    
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
     
 
