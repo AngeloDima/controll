@@ -96,11 +96,31 @@ public class fotoController {
     
     
     @PostMapping("/edit/{id}")
-    public String paggEdit ( @ModelAttribute ("editFoto") foto formFoto,BindingResult bindingResult, Model model) {
+    public String paggEdit(@ModelAttribute("editFoto") @Valid foto formFoto, BindingResult bindingResult, Model model, @PathVariable("id") Integer id) {
 
-        repository.save(formFoto);
+        // Controllo autorizzazioni
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            return "redirect:/";
+        }
+        
+        // Aggiungi manualmente il ruolo "ADMIN" all'utente autorizzato
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        updatedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+        foto existingFoto = repository.findById(id).orElse(null);
+        if (existingFoto == null) {
+            return "redirect:/";
+        }
+        existingFoto.setTitolo(formFoto.getTitolo());
+        existingFoto.setDescrizione(formFoto.getDescrizione());
+        existingFoto.setUrl(formFoto.getUrl());
+        repository.save(existingFoto);
         return "redirect:/";
     }
+
     
     
     
@@ -113,9 +133,15 @@ public class fotoController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        repository.deleteById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                            .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        if (isAdmin) {
+            repository.deleteById(id);
+        }
         return "redirect:/";
     }
+
 }
     
     
